@@ -7,15 +7,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
-import javax.persistence.Entity;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.FlushModeType;
-import javax.persistence.NoResultException;
-import javax.persistence.PersistenceException;
-import javax.persistence.PersistenceUnit;
-import javax.persistence.Query;
-import javax.persistence.spi.PersistenceUnitInfo;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.FlushModeType;
+import jakarta.persistence.NoResultException;
+import jakarta.persistence.PersistenceException;
+import jakarta.persistence.PersistenceUnit;
+import jakarta.persistence.Query;
+import jakarta.persistence.spi.PersistenceUnitInfo;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.core.config.Configurator;
 import org.hibernate.cfg.AvailableSettings;
@@ -218,8 +218,8 @@ public class JPAPlugin extends PlayPlugin {
     protected Properties properties(String dbName, Configuration dbConfig) {
         Properties properties = new Properties();
         properties.putAll(dbConfig.getProperties());
-        properties.put("javax.persistence.transaction", "RESOURCE_LOCAL");
-        properties.put("javax.persistence.provider", "org.hibernate.ejb.HibernatePersistence");
+        properties.put("jakarta.persistence.transaction", "RESOURCE_LOCAL");
+        properties.put("jakarta.persistence.provider", "org.hibernate.ejb.HibernatePersistence");
         properties.put("hibernate.dialect", getDefaultDialect(dbConfig, dbConfig.getProperty("db.driver")));
 
         if (!dbConfig.getProperty("jpa.ddl", Play.mode.isDev() ? "update" : "none").equals("none")) {
@@ -243,41 +243,17 @@ public class JPAPlugin extends PlayPlugin {
         } else if ("org.hsqldb.jdbcDriver".equals(driver)) {
             return "org.hibernate.dialect.HSQLDialect";
         } else if ("com.mysql.cj.jdbc.Driver".equals(driver)) {
-            return "org.hibernate.dialect.MySQL8Dialect";
+            return "org.hibernate.dialect.MySQLDialect";
         } else if ("com.mysql.jdbc.Driver".equals(driver)) {
             return "play.db.jpa.MySQLDialect";
         } else if ("org.postgresql.Driver".equals(driver)) {
             return "org.hibernate.dialect.PostgreSQLDialect";
         } else if ("com.ibm.db2.jdbc.app.DB2Driver".equals(driver)) {
             return "org.hibernate.dialect.DB2Dialect";
-        } else if ("com.ibm.as400.access.AS400JDBCDriver".equals(driver)) {
-            return "org.hibernate.dialect.DB2400Dialect";
-        } else if ("com.ibm.as400.access.AS390JDBCDriver".equals(driver)) {
-            return "org.hibernate.dialect.DB2390Dialect";
         } else if ("oracle.jdbc.OracleDriver".equals(driver)) {
-            return "org.hibernate.dialect.Oracle10gDialect";
-        } else if ("com.sybase.jdbc2.jdbc.SybDriver".equals(driver)) {
-            return "org.hibernate.dialect.SybaseAnywhereDialect";
+            return "org.hibernate.dialect.OracleDialect";
         } else if ("com.microsoft.jdbc.sqlserver.SQLServerDriver".equals(driver)) {
             return "org.hibernate.dialect.SQLServerDialect";
-        } else if ("com.sap.dbtech.jdbc.DriverSapDB".equals(driver)) {
-            return "org.hibernate.dialect.SAPDBDialect";
-        } else if ("com.informix.jdbc.IfxDriver".equals(driver)) {
-            return "org.hibernate.dialect.InformixDialect";
-        } else if ("com.ingres.jdbc.IngresDriver".equals(driver)) {
-            return "org.hibernate.dialect.IngresDialect";
-        } else if ("progress.sql.jdbc.JdbcProgressDriver".equals(driver)) {
-            return "org.hibernate.dialect.ProgressDialect";
-        } else if ("com.mckoi.JDBCDriver".equals(driver)) {
-            return "org.hibernate.dialect.MckoiDialect";
-        } else if ("InterBase.interclient.Driver".equals(driver)) {
-            return "org.hibernate.dialect.InterbaseDialect";
-        } else if ("com.pointbase.jdbc.jdbcUniversalDriver".equals(driver)) {
-            return "org.hibernate.dialect.PointbaseDialect";
-        } else if ("com.frontbase.jdbc.FBJDriver".equals(driver)) {
-            return "org.hibernate.dialect.FrontbaseDialect";
-        } else if ("org.firebirdsql.jdbc.FBDriver".equals(driver)) {
-            return "org.hibernate.dialect.FirebirdDialect";
         } else {
             throw new UnsupportedOperationException("I do not know which hibernate dialect to use with "
                     + driver + " and I cannot guess it, use the property jpa.dialect in config file");
