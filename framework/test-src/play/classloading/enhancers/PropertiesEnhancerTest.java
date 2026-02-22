@@ -1,5 +1,6 @@
 package play.classloading.enhancers;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import play.Play;
@@ -33,6 +34,13 @@ public class PropertiesEnhancerTest {
     @Before
     public void setUp() {
         new PlayBuilder().build();
+        // PropertiesEnhancer defaults to off after Phase 2C; opt in explicitly for these tests.
+        Play.configuration.setProperty("play.propertiesEnhancer.enabled", "true");
+    }
+
+    @After
+    public void tearDown() {
+        Play.configuration.remove("play.propertiesEnhancer.enabled");
     }
 
     // -------------------------------------------------------------------------
